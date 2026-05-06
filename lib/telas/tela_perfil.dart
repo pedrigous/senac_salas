@@ -232,7 +232,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 Text(
@@ -240,7 +240,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 Text(
@@ -248,7 +248,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                                   style: TextStyle(
                                     color: Colors.black54,
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],

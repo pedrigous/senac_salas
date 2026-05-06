@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 class Salas extends Table{
   IntColumn get id => integer().autoIncrement()(); //id INTEGER AUTOINCREMENT
   TextColumn get nome => text()(); //nome TEXT
-  TextColumn get numero => text()(); //numero TEXT
+  TextColumn get numero => text().unique()(); //numero TEXT
   IntColumn get capacidade => integer()(); //capacidade
   TextColumn get recursos => text()(); // recursos
   TextColumn get localizacao => text()(); // localizacao TEXT

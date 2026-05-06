@@ -38,6 +38,7 @@ class $SalasTable extends Salas with TableInfo<$SalasTable, Sala> {
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _capacidadeMeta = const VerificationMeta(
     'capacidade',
@@ -543,6 +544,7 @@ class $CursosTable extends Cursos with TableInfo<$CursosTable, Curso> {
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -1204,6 +1206,7 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
   @override
@@ -1240,6 +1243,7 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _celularMeta = const VerificationMeta(
     'celular',
@@ -1247,6 +1251,18 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
   @override
   late final GeneratedColumn<String> celular = GeneratedColumn<String>(
     'celular',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _dicaSenhaMeta = const VerificationMeta(
+    'dicaSenha',
+  );
+  @override
+  late final GeneratedColumn<String> dicaSenha = GeneratedColumn<String>(
+    'dica_senha',
     aliasedName,
     true,
     type: DriftSqlType.string,
@@ -1274,6 +1290,7 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
     senha,
     email,
     celular,
+    dicaSenha,
     logado,
   ];
   @override
@@ -1336,6 +1353,12 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
         celular.isAcceptableOrUnknown(data['celular']!, _celularMeta),
       );
     }
+    if (data.containsKey('dica_senha')) {
+      context.handle(
+        _dicaSenhaMeta,
+        dicaSenha.isAcceptableOrUnknown(data['dica_senha']!, _dicaSenhaMeta),
+      );
+    }
     if (data.containsKey('logado')) {
       context.handle(
         _logadoMeta,
@@ -1379,6 +1402,10 @@ class $UsuariosTable extends Usuarios with TableInfo<$UsuariosTable, Usuario> {
         DriftSqlType.string,
         data['${effectivePrefix}celular'],
       ),
+      dicaSenha: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}dica_senha'],
+      ),
       logado: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}logado'],
@@ -1400,6 +1427,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
   final String senha;
   final String? email;
   final String? celular;
+  final String? dicaSenha;
   final bool logado;
   const Usuario({
     required this.idUsuario,
@@ -1409,6 +1437,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
     required this.senha,
     this.email,
     this.celular,
+    this.dicaSenha,
     required this.logado,
   });
   @override
@@ -1426,6 +1455,9 @@ class Usuario extends DataClass implements Insertable<Usuario> {
     }
     if (!nullToAbsent || celular != null) {
       map['celular'] = Variable<String>(celular);
+    }
+    if (!nullToAbsent || dicaSenha != null) {
+      map['dica_senha'] = Variable<String>(dicaSenha);
     }
     map['logado'] = Variable<bool>(logado);
     return map;
@@ -1446,6 +1478,9 @@ class Usuario extends DataClass implements Insertable<Usuario> {
       celular: celular == null && nullToAbsent
           ? const Value.absent()
           : Value(celular),
+      dicaSenha: dicaSenha == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dicaSenha),
       logado: Value(logado),
     );
   }
@@ -1463,6 +1498,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
       senha: serializer.fromJson<String>(json['senha']),
       email: serializer.fromJson<String?>(json['email']),
       celular: serializer.fromJson<String?>(json['celular']),
+      dicaSenha: serializer.fromJson<String?>(json['dicaSenha']),
       logado: serializer.fromJson<bool>(json['logado']),
     );
   }
@@ -1477,6 +1513,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
       'senha': serializer.toJson<String>(senha),
       'email': serializer.toJson<String?>(email),
       'celular': serializer.toJson<String?>(celular),
+      'dicaSenha': serializer.toJson<String?>(dicaSenha),
       'logado': serializer.toJson<bool>(logado),
     };
   }
@@ -1489,6 +1526,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
     String? senha,
     Value<String?> email = const Value.absent(),
     Value<String?> celular = const Value.absent(),
+    Value<String?> dicaSenha = const Value.absent(),
     bool? logado,
   }) => Usuario(
     idUsuario: idUsuario ?? this.idUsuario,
@@ -1498,6 +1536,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
     senha: senha ?? this.senha,
     email: email.present ? email.value : this.email,
     celular: celular.present ? celular.value : this.celular,
+    dicaSenha: dicaSenha.present ? dicaSenha.value : this.dicaSenha,
     logado: logado ?? this.logado,
   );
   Usuario copyWithCompanion(UsuariosCompanion data) {
@@ -1509,6 +1548,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
       senha: data.senha.present ? data.senha.value : this.senha,
       email: data.email.present ? data.email.value : this.email,
       celular: data.celular.present ? data.celular.value : this.celular,
+      dicaSenha: data.dicaSenha.present ? data.dicaSenha.value : this.dicaSenha,
       logado: data.logado.present ? data.logado.value : this.logado,
     );
   }
@@ -1523,6 +1563,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
           ..write('senha: $senha, ')
           ..write('email: $email, ')
           ..write('celular: $celular, ')
+          ..write('dicaSenha: $dicaSenha, ')
           ..write('logado: $logado')
           ..write(')'))
         .toString();
@@ -1537,6 +1578,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
     senha,
     email,
     celular,
+    dicaSenha,
     logado,
   );
   @override
@@ -1550,6 +1592,7 @@ class Usuario extends DataClass implements Insertable<Usuario> {
           other.senha == this.senha &&
           other.email == this.email &&
           other.celular == this.celular &&
+          other.dicaSenha == this.dicaSenha &&
           other.logado == this.logado);
 }
 
@@ -1561,6 +1604,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
   final Value<String> senha;
   final Value<String?> email;
   final Value<String?> celular;
+  final Value<String?> dicaSenha;
   final Value<bool> logado;
   const UsuariosCompanion({
     this.idUsuario = const Value.absent(),
@@ -1570,6 +1614,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
     this.senha = const Value.absent(),
     this.email = const Value.absent(),
     this.celular = const Value.absent(),
+    this.dicaSenha = const Value.absent(),
     this.logado = const Value.absent(),
   });
   UsuariosCompanion.insert({
@@ -1580,6 +1625,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
     required String senha,
     this.email = const Value.absent(),
     this.celular = const Value.absent(),
+    this.dicaSenha = const Value.absent(),
     this.logado = const Value.absent(),
   }) : nome = Value(nome),
        funcao = Value(funcao),
@@ -1592,6 +1638,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
     Expression<String>? senha,
     Expression<String>? email,
     Expression<String>? celular,
+    Expression<String>? dicaSenha,
     Expression<bool>? logado,
   }) {
     return RawValuesInsertable({
@@ -1602,6 +1649,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
       if (senha != null) 'senha': senha,
       if (email != null) 'email': email,
       if (celular != null) 'celular': celular,
+      if (dicaSenha != null) 'dica_senha': dicaSenha,
       if (logado != null) 'logado': logado,
     });
   }
@@ -1614,6 +1662,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
     Value<String>? senha,
     Value<String?>? email,
     Value<String?>? celular,
+    Value<String?>? dicaSenha,
     Value<bool>? logado,
   }) {
     return UsuariosCompanion(
@@ -1624,6 +1673,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
       senha: senha ?? this.senha,
       email: email ?? this.email,
       celular: celular ?? this.celular,
+      dicaSenha: dicaSenha ?? this.dicaSenha,
       logado: logado ?? this.logado,
     );
   }
@@ -1652,6 +1702,9 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
     if (celular.present) {
       map['celular'] = Variable<String>(celular.value);
     }
+    if (dicaSenha.present) {
+      map['dica_senha'] = Variable<String>(dicaSenha.value);
+    }
     if (logado.present) {
       map['logado'] = Variable<bool>(logado.value);
     }
@@ -1668,6 +1721,7 @@ class UsuariosCompanion extends UpdateCompanion<Usuario> {
           ..write('senha: $senha, ')
           ..write('email: $email, ')
           ..write('celular: $celular, ')
+          ..write('dicaSenha: $dicaSenha, ')
           ..write('logado: $logado')
           ..write(')'))
         .toString();
@@ -2722,6 +2776,7 @@ typedef $$UsuariosTableCreateCompanionBuilder =
       required String senha,
       Value<String?> email,
       Value<String?> celular,
+      Value<String?> dicaSenha,
       Value<bool> logado,
     });
 typedef $$UsuariosTableUpdateCompanionBuilder =
@@ -2733,6 +2788,7 @@ typedef $$UsuariosTableUpdateCompanionBuilder =
       Value<String> senha,
       Value<String?> email,
       Value<String?> celular,
+      Value<String?> dicaSenha,
       Value<bool> logado,
     });
 
@@ -2777,6 +2833,11 @@ class $$UsuariosTableFilterComposer
 
   ColumnFilters<String> get celular => $composableBuilder(
     column: $table.celular,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dicaSenha => $composableBuilder(
+    column: $table.dicaSenha,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2830,6 +2891,11 @@ class $$UsuariosTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get dicaSenha => $composableBuilder(
+    column: $table.dicaSenha,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get logado => $composableBuilder(
     column: $table.logado,
     builder: (column) => ColumnOrderings(column),
@@ -2865,6 +2931,9 @@ class $$UsuariosTableAnnotationComposer
 
   GeneratedColumn<String> get celular =>
       $composableBuilder(column: $table.celular, builder: (column) => column);
+
+  GeneratedColumn<String> get dicaSenha =>
+      $composableBuilder(column: $table.dicaSenha, builder: (column) => column);
 
   GeneratedColumn<bool> get logado =>
       $composableBuilder(column: $table.logado, builder: (column) => column);
@@ -2905,6 +2974,7 @@ class $$UsuariosTableTableManager
                 Value<String> senha = const Value.absent(),
                 Value<String?> email = const Value.absent(),
                 Value<String?> celular = const Value.absent(),
+                Value<String?> dicaSenha = const Value.absent(),
                 Value<bool> logado = const Value.absent(),
               }) => UsuariosCompanion(
                 idUsuario: idUsuario,
@@ -2914,6 +2984,7 @@ class $$UsuariosTableTableManager
                 senha: senha,
                 email: email,
                 celular: celular,
+                dicaSenha: dicaSenha,
                 logado: logado,
               ),
           createCompanionCallback:
@@ -2925,6 +2996,7 @@ class $$UsuariosTableTableManager
                 required String senha,
                 Value<String?> email = const Value.absent(),
                 Value<String?> celular = const Value.absent(),
+                Value<String?> dicaSenha = const Value.absent(),
                 Value<bool> logado = const Value.absent(),
               }) => UsuariosCompanion.insert(
                 idUsuario: idUsuario,
@@ -2934,6 +3006,7 @@ class $$UsuariosTableTableManager
                 senha: senha,
                 email: email,
                 celular: celular,
+                dicaSenha: dicaSenha,
                 logado: logado,
               ),
           withReferenceMapper: (p0) => p0

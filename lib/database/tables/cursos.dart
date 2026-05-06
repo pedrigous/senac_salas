@@ -7,5 +7,5 @@ class Cursos extends Table{
   DateTimeColumn get dataFim => dateTime()();
   TextColumn get turno => text()();
   TextColumn get professor => text()();
-  TextColumn get codigoSIG => text().nullable()();
+  TextColumn get codigoSIG => text().unique().nullable()();
 }

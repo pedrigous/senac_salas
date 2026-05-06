@@ -196,10 +196,6 @@ class _TelaSalasState extends State<TelaSalas> {
                           spacing: 20,
                           children: [
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.edit),
-                            ),
-                            IconButton(
                               onPressed: () async => abrirDialogoRemover(sala),
                               icon: Icon(Icons.delete_outline),
                             ),

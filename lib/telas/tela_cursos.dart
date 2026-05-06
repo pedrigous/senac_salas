@@ -56,8 +56,9 @@ class _TelaCursosState extends State<TelaCursos> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Remover?'),
-          content: Text('Deseja remover esse curso ${curso.nomeCurso} ?'),
+          content: Text('Deseja remover o curso ${curso.nomeCurso}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),

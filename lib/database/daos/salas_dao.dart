@@ -16,8 +16,8 @@ class SalasDao extends DatabaseAccessor<AppDatabase> with _$SalasDaoMixin{
       ..where((s) => s.localizacao.equals(local))
     ).get();
   }
-  Stream<List<Sala>> buscarSalasDisponiveis({required bool disponibilidade}){
-    return (select(salas)..where((s) => s.disponivel.equals(disponibilidade))).watch();
+  Future<List<Sala>> buscarSalasDisponiveis({required bool disponibilidade}){
+    return (select(salas)..where((s) => s.disponivel.equals(disponibilidade))).get();
   }
 
   Future<int> cadastrarNovaSala(SalasCompanion sala)async{

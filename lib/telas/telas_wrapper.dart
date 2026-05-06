@@ -19,12 +19,11 @@ class _TelasWrapperState extends State<TelasWrapper>
   List<Tab> tabs = [
     Tab(icon: Icon(Icons.meeting_room_outlined), text: ('Salas')),
     Tab(icon: Icon(Icons.school_outlined), text: ('Cursos')),
-    Tab(icon: Icon(Icons.bookmark_outline), text: ('Reservas')),
   ];
 
-  List<Widget> pages = [TelaSalas(), TelaCursos(), TelaReservas()];
+  List<Widget> pages = [TelaSalas(), TelaCursos()];
 
-    void adicionarSala() => Navigator.push(
+  void adicionarSala() => Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => CadastroSala()),
   );
@@ -62,44 +61,44 @@ class _TelasWrapperState extends State<TelasWrapper>
                 floating: true,
                 automaticallyImplyLeading: false,
                 actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
-            PopupMenuButton<String>(
-              icon: Icon(Icons.add),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(12),
-              ),
-              onSelected: (value) {
-                switch (value) {
-                  case 'sala':
-                    adicionarSala();
-                    break;
-                  case 'curso':
-                    adicionarCurso();
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return <PopupMenuEntry<String>>[
-                  const PopupMenuItem<String>(
-                    value: 'sala',
-                    child: ListTile(
-                      leading: Icon(Icons.meeting_room),
-                      title: Text('Adicionar Sala'),
-                      contentPadding: EdgeInsets.zero,
+                  PopupMenuButton<String>(
+                    color: Colors.white,
+                    icon: Icon(Icons.add),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(12),
                     ),
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'sala':
+                          adicionarSala();
+                          break;
+                        case 'curso':
+                          adicionarCurso();
+                          break;
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'sala',
+                          child: ListTile(
+                            leading: Icon(Icons.meeting_room),
+                            title: Text('Adicionar Sala'),
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'curso',
+                          child: ListTile(
+                            leading: Icon(Icons.school),
+                            title: Text('Adicionar Curso'),
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                        ),
+                      ];
+                    },
                   ),
-                  const PopupMenuItem<String>(
-                    value: 'curso',
-                    child: ListTile(
-                      leading: Icon(Icons.grade),
-                      title: Text('Adicionar Curso'),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ),
-                ];
-              },
-            ),
-          ],
+                ],
               ),
               SliverAppBar(
                 automaticallyImplyLeading: false,

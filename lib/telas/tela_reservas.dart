@@ -49,20 +49,20 @@ class _TelaReservasState extends State<TelaReservas> {
     if(mounted) Navigator.of(context).pop();
   }
 
-  Future<void> abrirDialogoRemover(Reserva reserva) {
+  Future<void> abrirDialogoRemover(ReservasModel model) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Remover?'),
-          content: Text('Deseja remover a reserva ${reserva.idReserva} ?'),
+          content: Text('Deseja remover a reserva da sala ${model.sala.nome} para o curso ${model.curso.nomeCurso} ?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () async => removerReserva(reserva),
+              onPressed: () async => removerReserva(model.reserva!),
               child: Text('Sim'),
             ),
           ],
@@ -82,6 +82,9 @@ class _TelaReservasState extends State<TelaReservas> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Rerservas"),
+        ),
         body: StreamBuilder<List<ReservasModel>>(
           stream: reservasDao.streamOfReservas(),
           builder: (context, snapshot) {
@@ -116,7 +119,7 @@ class _TelaReservasState extends State<TelaReservas> {
                   onTapShare: ()=> abrirTelaCompartilhar(model),
                   onTapDelete: () {
                     if (reserva != null) {
-                      abrirDialogoRemover(reserva);
+                      abrirDialogoRemover(model);
                     }
                   },
                 );

@@ -37,7 +37,7 @@ class _CadastroSalaState extends State<CadastroSala> {
       _nomeCtrl,
       _recursosCtrl,
     ],
-    numbercontrollers: [_capacidadeCtrl, _numeroCtrl],
+    numberControllers: [_capacidadeCtrl, _numeroCtrl],
     );
 
     if (!camposPreenchidos) {
@@ -157,6 +157,11 @@ class _CadastroSalaState extends State<CadastroSala> {
             TextField(
               controller: _numeroCtrl,
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(3),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -210,6 +215,10 @@ class _CadastroSalaState extends State<CadastroSala> {
             TextField(
               controller: _capacidadeCtrl,
               textInputAction: TextInputAction.next,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(3),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -222,7 +231,6 @@ class _CadastroSalaState extends State<CadastroSala> {
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
               ),
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               onChanged: (value) {
                 int? valor = int.tryParse(value);
                 if (valor != null) capacidadeSala = valor;
