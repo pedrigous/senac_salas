@@ -17,8 +17,8 @@ class _TelasWrapperState extends State<TelasWrapper>
   late TabController tabCtrl;
 
   List<Tab> tabs = [
-    Tab(icon: Icon(Icons.meeting_room_outlined), text: ('Salas')),
-    Tab(icon: Icon(Icons.school_outlined), text: ('Cursos')),
+    Tab(text: ('Salas')),
+    Tab(text: ('Cursos')),
   ];
 
   List<Widget> pages = [TelaSalas(), TelaCursos()];
@@ -81,19 +81,11 @@ class _TelasWrapperState extends State<TelasWrapper>
                       return <PopupMenuEntry<String>>[
                         const PopupMenuItem<String>(
                           value: 'sala',
-                          child: ListTile(
-                            leading: Icon(Icons.meeting_room),
-                            title: Text('Adicionar Sala'),
-                            contentPadding: EdgeInsets.zero,
-                          ),
+                          child: Text('Adicionar Sala'),
                         ),
                         const PopupMenuItem<String>(
                           value: 'curso',
-                          child: ListTile(
-                            leading: Icon(Icons.school),
-                            title: Text('Adicionar Curso'),
-                            contentPadding: EdgeInsets.zero,
-                          ),
+                          child: Text('Adicionar Curso'),
                         ),
                       ];
                     },
@@ -109,6 +101,7 @@ class _TelasWrapperState extends State<TelasWrapper>
                   tabs: tabs,
                   controller: tabCtrl,
                   isScrollable: true,
+                  labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   tabAlignment: TabAlignment.start,
                   indicatorColor: Colors.indigo,
                   labelColor: Colors.indigo,

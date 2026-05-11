@@ -2,13 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:senac_salas/telas/auth/auth_wrapper.dart';
 import 'package:senac_salas/themes/tema.dart';
 import 'package:senac_salas/utils/audit_tools.dart';
 
 Future<void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await initializeDateFormatting('pt_BR', null);
 
@@ -42,4 +45,7 @@ Future<void> main() async{
     locale: const Locale('pt', 'BR'),
     )
   );
+
+  FlutterNativeSplash.remove();
+  
 }

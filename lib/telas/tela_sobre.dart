@@ -10,13 +10,102 @@ class TelaSobre extends StatelessWidget {
         appBar: AppBar(title: Text("Sobre")),
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             spacing: 10,
-          children: [
-            Text(""),
-          ],
+            children: [
+              SizedBox(
+                width: 200,
+                child: Image.asset(
+                  "assets/senac_logo.png",
+                  alignment: AlignmentGeometry.center,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  'O aplicativo Senac Salas foi desenvolvido pela primeira turma do curso de Programador de Dispositivos Móveis do Senac Santarém, ministrado pelo instrutor Patrick Macedo.',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  'O aplicativo foi desenvolvido para facilitar a reserva de salas de aula da instituição, diminuindo o uso de papel.',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              Text(
+                "Alunos",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 200,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            child: Icon(Icons.person),
+                          ),
+                          Text("Jonas"),
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage('assets/jose.webp'),
+                          ),
+                          Text("José Wanderley"),
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage('assets/kaio.webp'),
+                          ),
+                          Text("Kaio Sousa"),
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage('assets/logan.webp'),
+                          ),
+                          Text("Logan Camelo"),
+                        ],
+                      ),
+                      SizedBox(width: 15),
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage('assets/pedro.webp'),
+                          ),
+                          Text("Pedro Sousa"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

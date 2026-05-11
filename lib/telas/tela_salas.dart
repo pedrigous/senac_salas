@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart' as d;
 import 'package:flutter/material.dart';
+import 'package:senac_salas/custom/custom_card_sala.dart';
 import 'package:senac_salas/database/app_database.dart';
 import 'package:senac_salas/database/daos/salas_dao.dart';
 import 'package:senac_salas/telas/cadastro_curso.dart';
@@ -15,7 +16,6 @@ class TelaSalas extends StatefulWidget {
 class _TelaSalasState extends State<TelaSalas> {
   AppDatabase db = AppDatabase();
   late SalasDao salasDao = SalasDao(db);
-
 
   Future<void> removerSala(Sala sala) async {
     int result = await salasDao.removerSala(id: sala.id);
@@ -45,7 +45,7 @@ class _TelaSalasState extends State<TelaSalas> {
         );
       }
     }
-    if(mounted) Navigator.of(context).pop();
+    if (mounted) Navigator.of(context).pop();
   }
 
   Future<void> abrirDialogoRemover(Sala sala) {
@@ -53,23 +53,33 @@ class _TelaSalasState extends State<TelaSalas> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Remover?'),
-          content: Text('Deseja remover a sala ${sala.nome} ?'),
+          content: Text('Deseja remover a sala ${sala.nome}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text('Cancelar'),
             ),
-            TextButton(
-              onPressed: () async => removerSala(sala),
-              child: Text('Sim'),
-            ),
+            ElevatedButton(
+                  onPressed: () async => removerSala(sala),
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    backgroundColor: WidgetStatePropertyAll(Colors.red),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: Colors.red, width: 0.5),
+                      ),
+                    ),
+                  ),
+                  child: Text("Sim"),
+                ),
           ],
         );
       },
     );
   }
-
 
   void adicionarSala() => Navigator.push(
     context,
@@ -80,7 +90,6 @@ class _TelaSalasState extends State<TelaSalas> {
     context,
     MaterialPageRoute(builder: (context) => CadastroCurso()),
   );
-
 
   void mudarDisponibilidadeSala(Sala sala, bool status) async {
     AppDatabase db = AppDatabase();
@@ -145,66 +154,10 @@ class _TelaSalasState extends State<TelaSalas> {
               itemBuilder: (context, index) {
                 final sala = listOfSalas[index];
 
-                return Card(
-                  elevation: 2,
-                  borderOnForeground: true,
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.indigo, width: 0.5),
-                    borderRadius: BorderRadiusGeometry.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {},
-                        visualDensity: VisualDensity.comfortable,
-                        leading: Icon(
-                          Icons.meeting_room_outlined,
-                          color: Colors.indigo,
-                        ),
-                        title: Text(
-                          sala.nome,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        subtitle: Text(
-                          sala.localizacao,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        trailing: Switch(
-                          value: sala.disponivel,
-                          onChanged: (value) {
-                            mudarDisponibilidadeSala(sala, value);
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          spacing: 20,
-                          children: [
-                            IconButton(
-                              onPressed: () async => abrirDialogoRemover(sala),
-                              icon: Icon(Icons.delete_outline),
-                            ),
-                            SizedBox.square(dimension: 20,)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                return CustomCardSala(
+                  onDisponivel: (value) => mudarDisponibilidadeSala(sala, value),
+                  onDelete: () => abrirDialogoRemover(sala),
+                  sala: sala,
                 );
               },
             );

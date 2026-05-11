@@ -93,8 +93,6 @@ class _CadastroReservasState extends State<CadastroReservas> {
 
   @override
   Widget build(BuildContext context) {
-    AppDatabase db = AppDatabase();
-    SalasDao salasDao = SalasDao(db);
 
     return SafeArea(
       child: Scaffold(
@@ -103,8 +101,8 @@ class _CadastroReservasState extends State<CadastroReservas> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             spacing: 10,
             children: [

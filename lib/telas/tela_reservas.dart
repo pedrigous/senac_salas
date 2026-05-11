@@ -17,9 +17,11 @@ class _TelaReservasState extends State<TelaReservas> {
   AppDatabase db = AppDatabase();
   late ReservasDao reservasDao = ReservasDao(db);
 
-
   Future<void> removerReserva(Reserva reserva) async {
-    int result = await reservasDao.removerReserva(id: reserva.idReserva, idSala: reserva.idSala);
+    int result = await reservasDao.removerReserva(
+      id: reserva.idReserva,
+      idSala: reserva.idSala,
+    );
 
     if (result > 0) {
       if (mounted) {
@@ -46,7 +48,7 @@ class _TelaReservasState extends State<TelaReservas> {
         );
       }
     }
-    if(mounted) Navigator.of(context).pop();
+    if (mounted) Navigator.of(context).pop();
   }
 
   Future<void> abrirDialogoRemover(ReservasModel model) {
@@ -54,16 +56,29 @@ class _TelaReservasState extends State<TelaReservas> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Remover?'),
-          content: Text('Deseja remover a reserva da sala ${model.sala.nome} para o curso ${model.curso.nomeCurso} ?'),
+          content: Text(
+            'Deseja remover a reserva da sala ${model.sala.nome} para o curso ${model.curso.nomeCurso} ?',
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text('Cancelar'),
             ),
-            TextButton(
+            ElevatedButton(
               onPressed: () async => removerReserva(model.reserva!),
-              child: Text('Sim'),
+              style: ButtonStyle(
+                foregroundColor: WidgetStatePropertyAll(Colors.white),
+                backgroundColor: WidgetStatePropertyAll(Colors.red),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.red, width: 0.5),
+                  ),
+                ),
+              ),
+              child: Text("Sim"),
             ),
           ],
         );
@@ -71,20 +86,17 @@ class _TelaReservasState extends State<TelaReservas> {
     );
   }
 
-  void abrirTelaCompartilhar(ReservasModel reserva){
+  void abrirTelaCompartilhar(ReservasModel reserva) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context)=> CustomTicket(reserva: reserva)));
+      MaterialPageRoute(builder: (context) => CustomTicket(reserva: reserva)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Rerservas"),
-        ),
+        appBar: AppBar(title: Text("Rerservas")),
         body: StreamBuilder<List<ReservasModel>>(
           stream: reservasDao.streamOfReservas(),
           builder: (context, snapshot) {
@@ -116,7 +128,7 @@ class _TelaReservasState extends State<TelaReservas> {
                   dataInicio: tools.converterDateTime(curso.dataInicio),
                   dataFim: tools.converterDateTime(curso.dataFim),
                   turno: curso.turno,
-                  onTapShare: ()=> abrirTelaCompartilhar(model),
+                  onTapShare: () => abrirTelaCompartilhar(model),
                   onTapDelete: () {
                     if (reserva != null) {
                       abrirDialogoRemover(model);

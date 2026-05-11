@@ -184,6 +184,7 @@ class _RegistroState extends State<Registro> {
                 SizedBox(height: 15),
                 TextFormField(
                   controller: _matriculaCtrl,
+                  maxLength: 16,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Adicione um número de matrícula";
@@ -226,6 +227,7 @@ class _RegistroState extends State<Registro> {
                 ),
                 TextFormField(
                   controller: _funcaoCtrl,
+                  maxLength: 20,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Adicione sua função";
