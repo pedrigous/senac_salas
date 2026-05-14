@@ -140,7 +140,9 @@ class _TelaCursosState extends State<TelaCursos> {
 
   Future<void> abrirDialogoReserva(Curso curso) async {
     ValueNotifier<Sala?> salaNotifier = ValueNotifier(null);
-    final listOfSalasDisponiveis = await salasDao.buscarSalasDisponiveis(disponibilidade: true);
+    final listOfSalasDisponiveis = await salasDao.buscarSalasDisponiveis(
+      disponibilidade: true,
+    );
 
     showDialog(
       context: context,
@@ -203,38 +205,38 @@ class _TelaCursosState extends State<TelaCursos> {
               onPressed: () => Navigator.pop(context),
               child: Text('Cancelar'),
             ),
-            if(listOfSalasDisponiveis.isNotEmpty)
-            ElevatedButton(
-              onPressed: () async {
-                if (salaNotifier.value == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "Selecione a sala",
-                        style: TextStyle(color: Colors.white),
+            if (listOfSalasDisponiveis.isNotEmpty)
+              ElevatedButton(
+                onPressed: () async {
+                  if (salaNotifier.value == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Selecione a sala",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.amber,
                       ),
-                      backgroundColor: Colors.amber,
-                    ),
+                    );
+                    return;
+                  }
+                  cadastrarReserva(
+                    idSala: salaNotifier.value!.id,
+                    idCurso: curso.id,
                   );
-                  return;
-                }
-                cadastrarReserva(
-                  idSala: salaNotifier.value!.id,
-                  idCurso: curso.id,
-                );
-              },
-              style: ButtonStyle(
-                foregroundColor: WidgetStatePropertyAll(Colors.white),
-                backgroundColor: WidgetStatePropertyAll(Colors.indigo),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.indigo, width: 0.5),
+                },
+                style: ButtonStyle(
+                  foregroundColor: WidgetStatePropertyAll(Colors.white),
+                  backgroundColor: WidgetStatePropertyAll(Colors.indigo),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.indigo, width: 0.5),
+                    ),
                   ),
                 ),
+                child: Text("Concluir reserva"),
               ),
-              child: Text("Concluir reserva"),
-            ),
           ],
         );
       },

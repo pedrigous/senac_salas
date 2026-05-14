@@ -32,15 +32,18 @@ class _TelaCursosSalaState extends State<TelaCursosSala> {
           if (snapshot.hasError) {
             return Center(
               child: Card(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 10,
-                  children: [
-                    Icon(Icons.error_outline, color: Colors.amber, size: 50),
-                    Text("Houve um erro ao carregar os cursos"),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 10,
+                    children: [
+                      Icon(Icons.error_outline, color: Colors.amber, size: 50),
+                      Text("Houve um erro ao carregar os cursos"),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -49,16 +52,21 @@ class _TelaCursosSalaState extends State<TelaCursosSala> {
           final list = snapshot.data ?? [];
 
           if (list.isEmpty) {
-            return Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 10,
-                children: [
-                  Icon(Icons.data_array, color: Colors.amber, size: 50),
-                  Text("Nenhum curso previsto para esta sala"),
-                ],
+            return Center(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 10,
+                    children: [
+                      Icon(Icons.data_array, color: Colors.amber, size: 50),
+                      Text("Nenhum curso previsto para esta sala"),
+                    ],
+                  ),
+                ),
               ),
             );
           }

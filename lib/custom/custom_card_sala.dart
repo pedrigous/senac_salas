@@ -85,6 +85,19 @@ class _CustomCardSalaState extends State<CustomCardSala> {
                 Text("${widget.sala.capacidade} Alunos"),
                 ElevatedButton(
                   onPressed: widget.onTap,
+                  style: ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                          color: Colors.indigo, width: 0.5
+                        ),
+                      ),
+                    ),
+                    backgroundColor: WidgetStatePropertyAll(Colors.indigo),
+                    foregroundColor: WidgetStatePropertyAll(Colors.white),
+                  ),
                   child: Text('Ver cursos'),
                 ),
                 IconButton(
