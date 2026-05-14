@@ -1,14 +1,28 @@
 import 'package:drift/drift.dart';
 import 'package:senac_salas/database/app_database.dart';
-import 'package:senac_salas/database/tables/tabelas.dart' show Salas;
+import 'package:senac_salas/database/tables/tabelas.dart';
 
 part 'salas_dao.g.dart';
 
-@DriftAccessor(tables: [Salas])
+@DriftAccessor(tables: [Salas, Reservas, Cursos])
 class SalasDao extends DatabaseAccessor<AppDatabase> with _$SalasDaoMixin{
   SalasDao(super.db);
 
   Stream<List<Sala>> streamOfSalas() => select(salas).watch();
+
+  Future<List<Curso>> buscarCursosPorSala({required int idSala})async{
+    final query = (select(cursos).join([
+      innerJoin(reservas, reservas.idCurso.equalsExp(cursos.id))
+    ]));
+
+    query.where(reservas.idSala.equals(idSala));
+
+    final linhas = await query.get();
+
+    final listOfCurso = linhas.map((linha) => linha.readTable(cursos)).toList();
+
+    return listOfCurso;
+  }
 
   Future<List<Sala>> buscarSalasPorLocal({required String local})async{
     return await (

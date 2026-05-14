@@ -5,6 +5,7 @@ import 'package:senac_salas/database/app_database.dart';
 import 'package:senac_salas/database/daos/salas_dao.dart';
 import 'package:senac_salas/telas/cadastro_curso.dart';
 import 'package:senac_salas/telas/cadastro_sala.dart';
+import 'package:senac_salas/telas/tela_cursos_sala.dart';
 
 class TelaSalas extends StatefulWidget {
   const TelaSalas({super.key});
@@ -62,19 +63,19 @@ class _TelaSalasState extends State<TelaSalas> {
               child: Text('Cancelar'),
             ),
             ElevatedButton(
-                  onPressed: () async => removerSala(sala),
-                  style: ButtonStyle(
-                    foregroundColor: WidgetStatePropertyAll(Colors.white),
-                    backgroundColor: WidgetStatePropertyAll(Colors.red),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: Colors.red, width: 0.5),
-                      ),
-                    ),
+              onPressed: () async => removerSala(sala),
+              style: ButtonStyle(
+                foregroundColor: WidgetStatePropertyAll(Colors.white),
+                backgroundColor: WidgetStatePropertyAll(Colors.red),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.red, width: 0.5),
                   ),
-                  child: Text("Sim"),
                 ),
+              ),
+              child: Text("Sim"),
+            ),
           ],
         );
       },
@@ -119,6 +120,13 @@ class _TelaSalasState extends State<TelaSalas> {
     }
   }
 
+  void abrirTelaCursosSala(Sala sala) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TelaCursosSala(sala: sala)),
+    );
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {});
@@ -155,9 +163,11 @@ class _TelaSalasState extends State<TelaSalas> {
                 final sala = listOfSalas[index];
 
                 return CustomCardSala(
-                  onDisponivel: (value) => mudarDisponibilidadeSala(sala, value),
+                  onDisponivel: (value) =>
+                      mudarDisponibilidadeSala(sala, value),
                   onDelete: () => abrirDialogoRemover(sala),
                   sala: sala,
+                  onTap: () => abrirTelaCursosSala(sala),
                 );
               },
             );

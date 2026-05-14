@@ -3,23 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:senac_salas/database/app_database.dart';
 import 'package:senac_salas/utils/format_tools.dart';
 
-class CustomCardCurso extends StatefulWidget {
-  final VoidCallback onDelete;
-  final VoidCallback onReserve;
+class CustomCardSalaCurso extends StatefulWidget {
+
   final Curso curso;
 
-  const CustomCardCurso({
+  const CustomCardSalaCurso({
     super.key,
     required this.curso,
-    required this.onDelete,
-    required this.onReserve,
   });
 
   @override
-  State<CustomCardCurso> createState() => _CustomCardCursoState();
+  State<CustomCardSalaCurso> createState() => _CustomCardSalaCursoState();
 }
 
-class _CustomCardCursoState extends State<CustomCardCurso> {
+class _CustomCardSalaCursoState extends State<CustomCardSalaCurso> {
   final FormatTools tools = FormatTools();
 
   @override
@@ -67,32 +64,7 @@ class _CustomCardCursoState extends State<CustomCardCurso> {
             Text('Conclusão: ${tools.converterDateTime(widget.curso.dataFim)}'),
             Text(widget.curso.turno),
             SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
-              children: [
-                ElevatedButton(
-                  onPressed: widget.onReserve,
-                  style: ButtonStyle(
-                    foregroundColor: WidgetStatePropertyAll(Colors.white),
-                    backgroundColor: WidgetStatePropertyAll(Colors.indigo),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: BorderSide(color: Colors.indigo, width: 0.5),
-                      ),
-                    ),
-                  ),
-                  child: Text("Reservar Sala"),
-                ),
-                IconButton(
-                  onPressed: widget.onDelete,
-                  icon: Icon(Icons.delete_outline, color: Colors.red),
-                ),
-              ],
-            ),
-          ],
+           ],
         ),
       ),
     );

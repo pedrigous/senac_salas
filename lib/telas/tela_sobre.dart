@@ -34,7 +34,7 @@ class TelaSobre extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(15),
                 child: Text(
-                  'O aplicativo foi desenvolvido para facilitar a reserva de salas de aula da instituição, diminuindo o uso de papel.',
+                  'O aplicativo foi desenvolvido para facilitar a reserva de salas de aula da instituição, diminuindo o uso de papel. Durante o decorrer do curso, foram apresentadas ferramentas essenciais para a elaboração deste projeto.',
                   style: TextStyle(fontSize: 16),
                   textAlign: TextAlign.justify,
                 ),

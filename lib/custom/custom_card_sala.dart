@@ -6,6 +6,7 @@ import 'package:senac_salas/database/app_database.dart';
 class CustomCardSala extends StatefulWidget {
   final Function(bool) onDisponivel;
   final VoidCallback onDelete;
+  final VoidCallback onTap;
   final Sala sala;
 
   const CustomCardSala({
@@ -13,6 +14,7 @@ class CustomCardSala extends StatefulWidget {
     required this.onDisponivel,
     required this.sala,
     required this.onDelete,
+    required this.onTap,
   });
 
   @override
@@ -81,6 +83,10 @@ class _CustomCardSalaState extends State<CustomCardSala> {
               spacing: 10,
               children: [
                 Text("${widget.sala.capacidade} Alunos"),
+                ElevatedButton(
+                  onPressed: widget.onTap,
+                  child: Text('Ver cursos'),
+                ),
                 IconButton(
                   onPressed: widget.onDelete,
                   icon: Icon(Icons.delete_outline, color: Colors.red),
