@@ -46,6 +46,7 @@ flutter:
   assets:
     - assets/senac_logo.png
     - assets/splash.png
+    - assets/jonas.png
     - assets/jose.webp
     - assets/kaio.webp
     - assets/logan.webp

@@ -23,6 +23,10 @@ class TelaSobre extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
+              Divider(
+                indent: 40,
+                endIndent: 40,
+                color: Colors.grey,),
               Padding(
                 padding: EdgeInsets.all(15),
                 child: Text(
@@ -56,9 +60,9 @@ class TelaSobre extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            child: Icon(Icons.person),
+                            backgroundImage: AssetImage('assets/jonas.png'),
                           ),
-                          Text("Jonas"),
+                          Text("Jonas Felipe"),
                         ],
                       ),
                       SizedBox(width: 15),
